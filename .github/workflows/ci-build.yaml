@@ -37,7 +37,7 @@ jobs:
   build-and-push-postgres:
     name: 🐳 Build & Push PostgreSQL Image
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
    
     steps:
     - name: 📥 Checkout code
