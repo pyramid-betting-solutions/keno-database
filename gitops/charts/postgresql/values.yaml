@@ -7,7 +7,7 @@ postgresql:
     tag: "latest"
     pullPolicy: IfNotPresent
     
-  database: "pyramid_keno_db"
+  database: pyramid_keno_db
   username: "pyramid_keno_user"
   password: "pyramid_keno_password"
 
