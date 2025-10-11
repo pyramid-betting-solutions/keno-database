@@ -78,5 +78,5 @@ jobs:
     - name: 📢 Notify success
       run: |
         echo "✅ PostgreSQL image built and pushed to personal Hub successfully!"
-        echo "📦 Image: ${{ env.IMAGE_NAME }}:18.0
+        echo "📦 Image: ${{ env.IMAGE_NAME }}:18.0"
         echo "🔗 Latest: ${{ env.IMAGE_NAME }}:latest"
