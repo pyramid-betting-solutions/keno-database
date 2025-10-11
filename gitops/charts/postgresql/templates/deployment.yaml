@@ -20,8 +20,8 @@ spec:
         ports:
         - containerPort: 5432
         envFrom:
-        - configMapRef:
-            name: {{ include "postgresql.fullname" . }}
+        - secretRef:
+            name: {{ include "postgresql.fullname" . }}-secret
         {{- if .Values.postgresql.persistence.enabled }}
         volumeMounts:
         - name: postgres-storage
