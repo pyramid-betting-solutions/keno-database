@@ -52,21 +52,31 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: 🐳 Build and push custom PostgreSQL image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        file: ./Dockerfile.postgres
-        platforms: linux/amd64
-        push: true
-        tags: |
-          ${{ env.IMAGE_NAME }}:${{ github.sha }}
-          ${{ env.IMAGE_NAME }}:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+# - name: 🐳 Build and push custom PostgreSQL image
+#   uses: docker/build-push-action@v5
+#   with:
+#     context: .
+#     file: ./Dockerfile.postgres
+#     platforms: linux/amd64
+#     push: true
+#     tags: |
+#       ${{ env.IMAGE_NAME }}:${{ github.sha }}
+#       ${{ env.IMAGE_NAME }}:latest
+#     cache-from: type=gha
+#     cache-to: type=gha,mode=max
+    - name: 🐳 Pull official PostgreSQL image
+      run: |
+        docker pull postgres:18.0
+
+    - name: 🐳 Tag and push personal DokcerHub
+      run: |
+        docker tag postgres:18.0 ${{ env.IMAGE_NAME }}:18.0
+        docker tag postgres:18.0 ${{ env.IMAGE_NAME }}:latest
+        docker push ${{ env.IMAGE_NAME }}:18.0
+        docker push ${{ env.IMAGE_NAME }}:latest
 
     - name: 📢 Notify success
       run: |
-        echo "✅ PostgreSQL image built and pushed successfully!"
-        echo "📦 Image: ${{ env.IMAGE_NAME }}:${{ github.sha }}"
+        echo "✅ PostgreSQL image built and pushed to personal Hub successfully!"
+        echo "📦 Image: ${{ env.IMAGE_NAME }}:18.0
         echo "🔗 Latest: ${{ env.IMAGE_NAME }}:latest"

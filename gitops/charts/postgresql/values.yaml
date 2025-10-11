@@ -3,7 +3,7 @@ global:
 
 postgresql:
   image:
-    repository: postgres
+    repository: d22002/postgres-keno
     tag: "18.0"
     pullPolicy: IfNotPresent
     
