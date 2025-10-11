@@ -25,7 +25,10 @@ spec:
         {{- if .Values.postgresql.persistence.enabled }}
         volumeMounts:
         - name: postgres-storage
-          mountPath: /var/lib/postgresql/data
+          mountPath: /data
+        env:
+        - name: PGDATA
+          value: /data
         {{- end }}
         resources:
           {{- toYaml .Values.postgresql.resources | nindent 12 }}
