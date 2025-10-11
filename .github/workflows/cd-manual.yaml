@@ -30,12 +30,14 @@ jobs:
   update-postgres-config:
     name: ⚙️ Update PostgreSQL Configuration
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
    
     steps:
     - name: 📥 Checkout code
       uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+      # with:
+      #   token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: 🔧 Update PostgreSQL values.yaml
       run: |
@@ -44,16 +46,16 @@ jobs:
         # Update PostgreSQL version
         sed -i "s|tag:.*|tag: \"${{ github.event.inputs.postgres_version }}\"|" gitops/charts/postgresql/values.yaml
        
-        # Update environment-specific settings
-        if [ "${{ github.event.inputs.environment }}" == "production" ]; then
-          echo "🏭 Production environment - increasing resources"
-          sed -i "s|size:.*|size: 10Gi|" gitops/charts/postgresql/values.yaml
-          sed -i "s|memory:.*|memory: \"1Gi\"|" gitops/charts/postgresql/values.yaml
-        else
-          echo "🧪 Staging environment - using default resources"
-          sed -i "s|size:.*|size: 5Gi|" gitops/charts/postgresql/values.yaml
-          sed -i "s|memory:.*|memory: \"512Mi\"|" gitops/charts/postgresql/values.yaml
-        fi
+        # # Update environment-specific settings
+        # if [ "${{ github.event.inputs.environment }}" == "production" ]; then
+        #   echo "🏭 Production environment - increasing resources"
+        #   sed -i "s|size:.*|size: 10Gi|" gitops/charts/postgresql/values.yaml
+        #   sed -i "s|memory:.*|memory: \"1Gi\"|" gitops/charts/postgresql/values.yaml
+        # else
+        #   echo "🧪 Staging environment - using default resources"
+        #   sed -i "s|size:.*|size: 5Gi|" gitops/charts/postgresql/values.yaml
+        #   sed -i "s|memory:.*|memory: \"512Mi\"|" gitops/charts/postgresql/values.yaml
+        # fi
 
         # Use custom image if specified
         if [ "${{ github.event.inputs.custom_image }}" == "true" ]; then
