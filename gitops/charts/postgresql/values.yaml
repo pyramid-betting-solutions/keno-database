@@ -1,0 +1,32 @@
+global:
+  namespace: pyramid-keno
+
+postgresql:
+  image:
+    repository: postgres
+    tag: "18.0"
+    pullPolicy: IfNotPresent
+    
+  database: "pyramid_keno_db"
+  username: "pyramid_keno_user"
+  password: "pyramid_keno_password"
+
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: ""
+
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "250m"
+
+  service:
+    type: ClusterIP
+    port: 5432
+  
+  deployment:
+    replicas: 1
