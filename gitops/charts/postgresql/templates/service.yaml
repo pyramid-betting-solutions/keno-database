@@ -3,8 +3,6 @@ kind: Service
 metadata:
   name: {{ include "postgresql.fullname" . }}-service
   namespace: {{ .Values.global.namespace }}
-  labels:
-    {{- include "postgresql.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.postgresql.service.type }}
   ports:
