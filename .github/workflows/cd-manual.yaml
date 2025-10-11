@@ -46,7 +46,7 @@ jobs:
 
     - name: 🔧 Update PostgreSQL values.yaml
       run: |
-        echo "🔄 Updating PostgreSQL configuration ${{ github.event.inputs.image_tag }}..."
+        echo "🔄 Updating PostgreSQL configuration ${{ github.event.inputs.version }}..."
        
         # Update PostgreSQL version
         sed -i "s/tag:.*/tag: \"${{ github.event.inputs.version }}\"/" \
@@ -58,8 +58,8 @@ jobs:
         echo "📊 PostgreSQL Deployment Summary:"
         echo "================================="
         echo "🌍 Environment: ${{ github.event.inputs.environment }}"
-        echo "🐘 PostgreSQL Version: ${{ github.event.inputs.image_tag }}"
-        echo "🖼️ Custom Image: ${{ github.event.inputs.image_tag }}"
+        echo "🐘 PostgreSQL Version: ${{ github.event.inputs.version }}"
+        echo "🖼️ Custom Image: ${{ github.event.inputs.version }}"
       
 
     - name: 💾 Commit and push changes
@@ -67,7 +67,7 @@ jobs:
         git config user.name "suvorov"
         git config user.email "suvorov22002@gmail.com"
         git add gitops/charts/postgresql/values.yaml
-        git commit -m "cd: deploy postgresql ${{ github.event.inputs.image_tag }} to ${{ github.event.inputs.environment }}"
+        git commit -m "cd: deploy postgresql ${{ github.event.inputs.version }}"
         git push origin master
 
   notify-deployment:
@@ -85,5 +85,5 @@ jobs:
         echo "📋 Deployment Details:"
         echo "---------------------"
         echo "🌍 Environment: ${{ github.event.inputs.environment }}"
-        echo "🐘 Version: ${{ github.event.inputs.postgres_version }}"
-        echo "🖼️ Custom Image: ${{ github.event.inputs.custom_image }}"
+        echo "🐘 Version: ${{ github.event.inputs.version }}"
+        echo "🖼️ Custom Image: ${{ github.event.inputs.version }}"
