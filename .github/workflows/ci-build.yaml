@@ -3,9 +3,9 @@ name: 🐳 Build & Push PostgreSQL Image
 on:
   push:
     branches: [ master, develop ]
-    paths:
-      - 'docker/postgres/**'
-      - 'Dockerfile.postgres'
+#    paths:
+#      - 'docker/postgres/**'
+#      - 'Dockerfile.postgres'
   pull_request:
     branches: [ master ]
 
