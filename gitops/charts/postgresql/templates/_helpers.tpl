@@ -34,10 +34,10 @@ Common labels
 */}}
 {{- define "postgresql.labels" -}}
 helm.sh/chart: {{ include "postgresql.chart" . }}
-{{ include "postgresql.selectorLabels" . }}
+{{ include "postgresql.selectorLabels" . | nindent 0 }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end -}}
+{{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
