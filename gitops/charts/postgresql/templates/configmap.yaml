@@ -6,6 +6,6 @@ metadata:
   labels:
     {{- include "postgresql.labels" . | nindent 4 }}
 data:
-  POSTGRES_DB: {{ .Values.postgresql.database | quote }}
-  POSTGRES_USER: {{ .Values.postgresql.username | quote }}
-  POSTGRES_PASSWORD: {{ .Values.postgresql.password | quote }}
+  POSTGRES_DB: "kenodb"
+  POSTGRES_USER: "keno_user"
+  POSTGRES_PASSWORD: "keno_passw"
