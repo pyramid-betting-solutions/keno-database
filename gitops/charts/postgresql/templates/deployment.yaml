@@ -32,6 +32,6 @@ spec:
       {{- if .Values.postgresql.persistence.enabled }}
       volumes:
       - name: postgres-storage
-        persitentVolumeClaim:
+        persistentVolumeClaim:
             claimName: {{ include "postgresql.fullname" . }}-pvc
       {{- end }}
