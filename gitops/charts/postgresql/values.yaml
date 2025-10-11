@@ -4,7 +4,7 @@ global:
 postgresql:
   image:
     repository: d22002/postgres-keno
-    tag: "18.0"
+    tag: "latest"
     pullPolicy: IfNotPresent
     
   database: "pyramid_keno_db"
