@@ -3,28 +3,33 @@ name: 🗄️ Manual PostgreSQL Deployment
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'Deployment environment'
-        required: false
-        type: choice
-        options:
-        - staging
-        - production
-      postgres_version:
-        description: 'PostgreSQL version to deploy'
-        required: true
-        type: string
-        default: '15'
-      custom_image:
-        description: 'Use custom PostgreSQL image (instead of official)'
-        required: false
-        type: boolean
-        default: false
-      image_tag:
-        description: 'Custom image tag (if using custom image)'
+      version:
+        description: 'Custom PostgreSQL image tag to deploy (e.g., latest or 123)'
         required: true
         type: string
         default: 'latest'
+# environment:
+#   description: 'Deployment environment'
+#   required: false
+#   type: choice
+#   options:
+#   - staging
+#   - production
+# postgres_version:
+#   description: 'PostgreSQL version to deploy'
+#   required: true
+#   type: string
+#   default: '15'
+# custom_image:
+#   description: 'Use custom PostgreSQL image (instead of official)'
+#   required: false
+#   type: boolean
+#   default: false
+# image_tag:
+#   description: 'Custom image tag (if using custom image)'
+#   required: true
+#   type: string
+#   default: 'latest'
 
 jobs:
   update-postgres-config:
@@ -44,7 +49,8 @@ jobs:
         echo "🔄 Updating PostgreSQL configuration ${{ github.event.inputs.image_tag }}..."
        
         # Update PostgreSQL version
-        sed -i "s|tag:.*|tag: \"${{ github.event.inputs.image_tag }}\"|" gitops/charts/postgresql/values.yaml
+        sed -i "s/tag:.*/tag: \"${{ github.event.inputs.version }}\"/" \
+            gitops/charts/postgresql/values.yaml
         echo "✅ Updated gitops/charts/postgresql/values.yaml"
 
     - name: 📋 Show configuration summary

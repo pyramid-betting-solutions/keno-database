@@ -68,7 +68,7 @@ jobs:
       run: |
         docker pull postgres:18.0
 
-    - name: 🐳 Tag and push personal DokcerHub
+    - name: 🐳 Tag and push personal DockerHub
       run: |
         docker tag postgres:18.0 ${{ env.IMAGE_NAME }}:18.0
         docker tag postgres:18.0 ${{ env.IMAGE_NAME }}:latest
