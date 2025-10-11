@@ -50,7 +50,7 @@ jobs:
     - name: 📋 Show configuration summary
       run: |
         echo "📊 PostgreSQL Deployment Summary:"
-        echo "=================================
+        echo "================================="
         echo "🌍 Environment: ${{ github.event.inputs.environment }}"
         echo "🐘 PostgreSQL Version: ${{ github.event.inputs.image_tag }}"
         echo "🖼️ Custom Image: ${{ github.event.inputs.image_tag }}"
