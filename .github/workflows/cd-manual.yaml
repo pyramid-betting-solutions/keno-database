@@ -5,7 +5,7 @@ on:
     inputs:
       environment:
         description: 'Deployment environment'
-        required: true
+        required: false
         type: choice
         options:
         - staging
@@ -22,7 +22,7 @@ on:
         default: false
       image_tag:
         description: 'Custom image tag (if using custom image)'
-        required: false
+        required: true
         type: string
         default: 'latest'
 
@@ -41,53 +41,27 @@ jobs:
 
     - name: 🔧 Update PostgreSQL values.yaml
       run: |
-        echo "🔄 Updating PostgreSQL configuration..."
+        echo "🔄 Updating PostgreSQL configuration ${{ github.event.inputs.image_tag }}..."
        
         # Update PostgreSQL version
-        sed -i "s|tag:.*|tag: \"${{ github.event.inputs.postgres_version }}\"|" gitops/charts/postgresql/values.yaml
-       
-        # # Update environment-specific settings
-        # if [ "${{ github.event.inputs.environment }}" == "production" ]; then
-        #   echo "🏭 Production environment - increasing resources"
-        #   sed -i "s|size:.*|size: 10Gi|" gitops/charts/postgresql/values.yaml
-        #   sed -i "s|memory:.*|memory: \"1Gi\"|" gitops/charts/postgresql/values.yaml
-        # else
-        #   echo "🧪 Staging environment - using default resources"
-        #   sed -i "s|size:.*|size: 5Gi|" gitops/charts/postgresql/values.yaml
-        #   sed -i "s|memory:.*|memory: \"512Mi\"|" gitops/charts/postgresql/values.yaml
-        # fi
-
-        # Use custom image if specified
-        if [ "${{ github.event.inputs.custom_image }}" == "true" ]; then
-          echo "🎨 Using custom PostgreSQL image"
-          sed -i "s|repository:.*|repository: ${{ secrets.DOCKERHUB_USERNAME }}/postgres-keno|" gitops/charts/postgresql/values.yaml
-          sed -i "s|tag:.*|tag: \"${{ github.event.inputs.image_tag }}\"|" gitops/charts/postgresql/values.yaml
-        else
-          echo "🏢 Using official PostgreSQL image"
-          sed -i "s|repository:.*|repository: postgres|" gitops/charts/postgresql/values.yaml
-        fi
-
+        sed -i "s|tag:.*|tag: \"${{ github.event.inputs.image_tag }}\"|" gitops/charts/postgresql/values.yaml
         echo "✅ Updated gitops/charts/postgresql/values.yaml"
 
     - name: 📋 Show configuration summary
       run: |
         echo "📊 PostgreSQL Deployment Summary:"
-        echo "================================="
+        echo "=================================
         echo "🌍 Environment: ${{ github.event.inputs.environment }}"
-        echo "🐘 PostgreSQL Version: ${{ github.event.inputs.postgres_version }}"
-        echo "🖼️ Custom Image: ${{ github.event.inputs.custom_image }}"
-        if [ "${{ github.event.inputs.custom_image }}" == "true" ]; then
-          echo "📦 Image: ${{ secrets.DOCKERHUB_USERNAME }}/postgres-keno:${{ github.event.inputs.image_tag }}"
-        else
-          echo "📦 Image: postgres:${{ github.event.inputs.postgres_version }}"
-        fi
+        echo "🐘 PostgreSQL Version: ${{ github.event.inputs.image_tag }}"
+        echo "🖼️ Custom Image: ${{ github.event.inputs.image_tag }}"
+      
 
     - name: 💾 Commit and push changes
       run: |
         git config user.name "suvorov"
         git config user.email "suvorov22002@gmail.com"
         git add gitops/charts/postgresql/values.yaml
-        git diff --staged --quiet || git commit -m "cd: deploy postgresql ${{ github.event.inputs.postgres_version }} to ${{ github.event.inputs.environment }}"
+        git commit -m "cd: deploy postgresql ${{ github.event.inputs.image_tag }} to ${{ github.event.inputs.environment }}"
         git push origin master
 
   notify-deployment:
