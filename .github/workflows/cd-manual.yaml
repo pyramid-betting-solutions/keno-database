@@ -67,7 +67,7 @@ jobs:
         git config user.name "suvorov"
         git config user.email "suvorov22002@gmail.com"
         git add gitops/charts/postgresql/values.yaml
-        git commit -m "cd: deploy postgresql ${{ github.event.inputs.version }}"
+        git diff --cached --quiet || git commit -m "cd: deploy postgresql ${{ github.event.inputs.version }}"
         git push origin master
 
   notify-deployment:
