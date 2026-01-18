@@ -66,17 +66,17 @@ jobs:
 #     cache-to: type=gha,mode=max
     - name: 🐳 Pull official PostgreSQL image
       run: |
-        docker pull postgres:18.0
+        docker pull postgres:16.3
 
     - name: 🐳 Tag and push personal DockerHub
       run: |
-        docker tag postgres:18.0 ${{ env.IMAGE_NAME }}:18.0
-        docker tag postgres:18.0 ${{ env.IMAGE_NAME }}:latest
-        docker push ${{ env.IMAGE_NAME }}:18.0
+        docker tag postgres:16.3 ${{ env.IMAGE_NAME }}:16.3
+        docker tag postgres:16.3 ${{ env.IMAGE_NAME }}:latest
+        docker push ${{ env.IMAGE_NAME }}:16.3
         docker push ${{ env.IMAGE_NAME }}:latest
 
     - name: 📢 Notify success
       run: |
         echo "✅ PostgreSQL image built and pushed to personal Hub successfully!"
-        echo "📦 Image: ${{ env.IMAGE_NAME }}:18.0"
+        echo "📦 Image: ${{ env.IMAGE_NAME }}:16.3"
         echo "🔗 Latest: ${{ env.IMAGE_NAME }}:latest"
